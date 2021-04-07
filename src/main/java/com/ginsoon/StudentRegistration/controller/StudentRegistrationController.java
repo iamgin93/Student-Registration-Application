@@ -44,7 +44,7 @@ public class StudentRegistrationController {
     @PostMapping("add")
     public String addStudent(@Valid @ModelAttribute("student") Student student, BindingResult result,Model model) {
         if(result.hasErrors()){
-//            return "studentHomePage";
+            return "redirect:/students";
         }
         model.addAttribute("student", student);
         studentRegistrationService.save(student);
@@ -90,10 +90,12 @@ public class StudentRegistrationController {
     @PostMapping(value = "/update")
     public String updateStudent(@RequestParam("studentid") String id,
                                 @RequestParam("name") String name,
+                                @RequestParam("course") String course,
                                 @RequestParam("emailAddress") String emailAddress,
                                 @RequestParam("phoneNumber") String phoneNumber){
         Student student = studentRegistrationService.getStudent(Long.parseLong(id));
         student.setName(name);
+        student.setCourse(course);
         student.setEmailAddress(emailAddress);
         student.setPhoneNumber(phoneNumber);
         studentRegistrationService.save(student);

@@ -23,6 +23,11 @@ public class Student {
     @Size(min = 3,max = 30)
     private String name;
 
+    @Column(name = "course")
+    @NotBlank(message = "Course is mandatory")
+    @Size(min = 3, max = 30)
+    private String course;
+
     @Column(name = "email_address")
     @Email
     @NotBlank(message = "Email is mandatory")
@@ -103,5 +108,22 @@ public class Student {
      */
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    /**
+     * <p>This method is setter which sets the student's course
+     * </p>
+     * @param course String: student's course
+     */
+    public void setCourse(String course) {
+        this.course = course;
+    }
+    /**
+     * <p>This method is a getter which returns the student course
+     * </p>
+     * @return student's course
+     */
+    public String getCourse() {
+        return course;
     }
 }

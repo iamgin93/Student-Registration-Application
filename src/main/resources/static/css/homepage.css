@@ -1,5 +1,16 @@
-body {
-}
 #tableRow{
     padding-top: 50px;
+}
+.btn-add{
+    background-color: green;
+    color: white;
+}
+.btn-remove{
+    background-color: red;
+    color: white;
+}
+
+.modal-title{
+    font-weight: 600;
+    font-size: 28px;
 }
