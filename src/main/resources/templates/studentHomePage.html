@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <link href="../static/css/homepage.css" th:href="@{/css/homepage.css}" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/f9eeacf511.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
+    <script src="../static/js/addStudents.js" th:src="@{/js/addStudents.js}"></script>
+    <title>Student Registration System</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand">Student Registration System</a>
+            <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#addStudentModal">Add Student</button>
+            <div class="modal fade" id="addStudentModal" tabindex="-1" aria-labelledby="addStudentModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addStudentModalLabel">Add Student</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form" method="POST" th:action="@{/students/add}" th:object="${student}">
+                                <div class="form-group">
+                                    <label class="control-label">Student Name</label>
+                                    <div>
+                                        <input type="text" class="form-control input-lg" th:field="*{name}">
+                                        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger">Please ensure that your name is at least 3 characters long</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Email Address</label>
+                                    <div>
+                                        <input type="email" class="form-control input-lg" th:field="*{emailAddress}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Phone Number</label>
+                                    <div>
+                                        <input type="text" class="form-control input-lg" th:field="*{phoneNumber}">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row" id="tableRow">
+
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Email Address</th>
+                        <th>Phone Number</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tr th:each="student: ${students}">
+                    <td th:text="${student.name}">Student Name</td>
+                    <td th:text="${student.emailAddress}">Student Email Address</td>
+                    <td th:text="${student.phoneNumber}">Student Phone Number</td>
+<!--                    <td><a data-bs-toggle="modal" data-bs-target="#editStudentModal" th:attr="data-target=${student.studentId}" class="btn btn-primary"><i class="fas fa-user-edit ml-2"></i></a></td>-->
+                    <td><a th:href="@{/students/edit/(id=${student.studentId})}" id="editStudentBtn" class="btn btn-primary"><i class="fas fa-user-edit ml-2"></i></a></td>
+                    <td><a th:href="@{/students/delete/{id}(id=${student.studentId})}" class="btn btn-primary"><i class="fas fa-user-times ml-2"></i></a>
+                        <input type="hidden" th:value="${student.studentId}">
+                    </td>
+                </tr>
+            </table>
+            <div class="modal fade" id="editStudentModal" tabindex="-1" aria-labelledby="editStudentModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editStudentModalLabel">Edit Student Details</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form" method="POST" th:action="@{/students/update}" >
+                                <div class="form-group">
+                                    <label class="control-label">Student Name</label>
+                                    <div>
+                                        <input type="text" class="form-control input-lg" id="nameEdit" name="name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Email Address</label>
+                                    <div>
+                                        <input type="email" class="form-control input-lg" id="emailAddressEdit" name="emailAddress">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Phone Number</label>
+                                    <div>
+                                        <input type="text" class="form-control input-lg" id="phoneNumberEdit" name="phoneNumber">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="hidden" name="studentid" id="studentid">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
