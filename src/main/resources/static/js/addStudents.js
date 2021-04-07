@@ -14,6 +14,12 @@ $('document').ready(function(){
         $('#editStudentModal').modal('show');
     });
 
+    $('.btn-remove').on('click',function(event){
+        if(!confirm("Please confirm if you wish to delete this student")){
+            event.preventDefault();
+        }
+    });
+
     //Form validation logic
     (function () {
       'use strict'
