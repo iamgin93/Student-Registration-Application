@@ -2,6 +2,7 @@ package com.ginsoon.StudentRegistration.controller;
 
 import com.ginsoon.StudentRegistration.data.entity.Student;
 import com.ginsoon.StudentRegistration.service.StudentRegistrationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +20,7 @@ import javax.validation.Valid;
 public class StudentRegistrationController {
     private final StudentRegistrationService studentRegistrationService;
 
+    @Autowired
     public StudentRegistrationController(StudentRegistrationService studentRegistrationService) {
         this.studentRegistrationService = studentRegistrationService;
     }
@@ -47,7 +49,7 @@ public class StudentRegistrationController {
             return "redirect:/students";
         }
         model.addAttribute("student", student);
-        studentRegistrationService.save(student);
+        studentRegistrationService.saveStudent(student);
 
         return "redirect:/students";
     }
@@ -60,7 +62,7 @@ public class StudentRegistrationController {
      */
     @GetMapping("delete/{id}")
     public String deleteStudent(@PathVariable("id") long id, Model model){
-        studentRegistrationService.delete(id);
+        studentRegistrationService.deleteStudent(id);
         return "redirect:/students";
     }
     /**
@@ -98,7 +100,7 @@ public class StudentRegistrationController {
         student.setCourse(course);
         student.setEmailAddress(emailAddress);
         student.setPhoneNumber(phoneNumber);
-        studentRegistrationService.save(student);
+        studentRegistrationService.saveStudent(student);
         return "redirect:/students";
 
     }

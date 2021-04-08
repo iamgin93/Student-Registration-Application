@@ -37,7 +37,7 @@ public class StudentRegistrationService {
      * </p>
      * @param student student object
      */
-    public void save(Student student) {
+    public void saveStudent(Student student) {
         studentRepository.save(student);
     }
     /**
@@ -45,7 +45,7 @@ public class StudentRegistrationService {
      * </p>
      * @param id student id
      */
-    public void delete(long id){
+    public void deleteStudent(long id){
         Student student = studentRepository.findById(id).orElseThrow(()->new IllegalArgumentException("Invalid student ID:" + id));
         studentRepository.delete(student);
     }
